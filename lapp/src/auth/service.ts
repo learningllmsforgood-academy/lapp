@@ -4,6 +4,8 @@ import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth"
 const authService = getAuth(firebaseApp);
 
 
+// this will actually anonymous sign in the user.
+// so shouldn't actually do this.
 // signInAnonymously(authService)
 //     .then(userCredential => {
 //         console.log("Anonymous user sign in: ", userCredential);

@@ -1,3 +1,6 @@
+// fix this
+// maybe try importing "firebase/compat/auth"
+
 import firebaseApp from './firebase'
 import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth"
 

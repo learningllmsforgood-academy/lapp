@@ -49,6 +49,8 @@ function FirebaseLoginUI() {
                     provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
                     requireDisplayName: true,
                 },
+
+                // this is not working currently. to fix this.
                 // firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
                 {
                     provider: firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,

@@ -1,12 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-// import App from './App.tsx'
+import ViteStarterApp from './ViteStarterApp.tsx'
 import './index.css'
-import FirebaseLoginUI from './ui/FirebaseLoginUI'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {/* <App /> */}
-    <FirebaseLoginUI />
+    <ViteStarterApp />
   </React.StrictMode>,
 )

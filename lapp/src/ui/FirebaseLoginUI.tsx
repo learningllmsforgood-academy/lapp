@@ -6,8 +6,6 @@ import FirebaseAuthService from '../services/auth'
 
 import { useState, useEffect } from 'react'
 
-import '../App.css' // for now to display correctly
-
 function FirebaseLoginUI() {
     const [ authState, setAuthState ] = useState({});
     const [ loaded, setLoaded  ] = useState(false);

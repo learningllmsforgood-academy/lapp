@@ -2,19 +2,18 @@ import firebase from 'firebase/compat/app'
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
 
+import FirebaseAuthService from '../services/auth'
+
 import { useState, useEffect } from 'react'
-import authService from './service'
 
 import '../App.css' // for now to display correctly
 
 function FirebaseLoginUI() {
     const [ authState, setAuthState ] = useState({});
     const [ loaded, setLoaded  ] = useState(false);
-    const [ loadingEvents, setLoadingEvents ] = useState<Date[]>([]);
     
-
     useEffect(() => {
-        const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(authService)
+        const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(FirebaseAuthService);
 
         ui.start("#firebase-auth-container", {
             // doc for config options: https://github.com/firebase/firebaseui-web#configuration
@@ -40,8 +39,7 @@ function FirebaseLoginUI() {
                     }))
                 },
                 uiShown: () => {
-                    setLoaded(prev => !prev);
-                    setLoadingEvents(events => ([ ...events, new Date() ]));
+                    setLoaded(true);
                 },
             },
             signInOptions: [
@@ -49,9 +47,6 @@ function FirebaseLoginUI() {
                     provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
                     requireDisplayName: true,
                 },
-
-                // this is not working currently. to fix this.
-                // firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
                 {
                     provider: firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
                 },
@@ -68,11 +63,9 @@ function FirebaseLoginUI() {
     return (
         <>
             <h1 style={{ textAlign: 'center' }}>Login Page</h1>
+            <code id="loaded">FirebaseUI Loaded: {JSON.stringify(loaded)}</code>
+
             <div id="firebase-auth-container"></div>
-
-            <div id="loaded">Loaded: {JSON.stringify(loaded)}</div>
-            <div><code>Loading events: {JSON.stringify(loadingEvents)}</code></div>
-
             <div><code>{JSON.stringify(authState, null, 2)}</code></div>
         </>
     )

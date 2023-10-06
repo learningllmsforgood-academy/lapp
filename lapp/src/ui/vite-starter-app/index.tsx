@@ -1,31 +1,76 @@
-import { useEffect, useState } from 'react'
+import firebase from 'firebase/compat/app'
+import * as firebaseui from 'firebaseui'
+
+
+import { useState } from 'react'
 import logos from './logos';
 import './index.css'
 
-import FirebaseAuthService from '../../services/auth/index.js';
-import { User } from '../../types';
-
 import FirebaseLoginUI from '../FirebaseLoginUI.js';
+import { TypeUser, TypeLoginError } from '../../types';
+
+const getFirebaseUILoadedCallback = (setLoaded: (loaded: boolean) => void) => () => {
+  setLoaded(true);
+};
+
+const getFirebaseUISignInFailureCallback = (setError: (error: TypeLoginError) => void) => (firebaseUIError: firebaseui.auth.AuthUIError) => {
+  const error: TypeLoginError = {
+    code: firebaseUIError.code,
+    message: firebaseUIError.message,
+  }
+  setError(error);
+}
+
+const getFirebaseUISignInSuccessCallback = (setUser: (user: TypeUser) => void) => (authResult: firebase.auth.UserCredential, redirectUrl: string) => {
+  // firebaseUI login success callback
+  // doc: https://github.com/firebase/firebaseui-web#signinsuccesswithauthresultauthresult-redirecturl
+  console.log("==> firebase login success! => ", { authResult, redirectUrl });
+  if (authResult.user) {
+      const fbUser = authResult.user;
+      const user: TypeUser = {
+          id: fbUser.uid,
+      };
+      setUser(user);
+  } else {
+      // as per docs should not happen
+      // most likely a bug in firebaseui
+      console.error("unexpected error while logging in. sign in sucess. no user.")
+  }
+  
+  // return true;
+  // true will redirect the page. 
+  // will need to have signInSuccessUrl parameter defined
+
+  // false won't redirect the page anywhere
+  return false;
+};
 
 function App() {
-  const [user, setUser] = useState<User>();
+  // should I make the app a functional component?
+  const [isFirebaseLoginUILoaded, setFirebaseLoginUILoaded] = useState(false);
+  const [loginError, setLoginError] = useState<TypeLoginError>();
+  const [user, setUser] = useState<TypeUser>();
+  
+  const onFirebaseUILoaded = getFirebaseUILoadedCallback(setFirebaseLoginUILoaded);
+  const onFirebaseUISignInError = getFirebaseUISignInFailureCallback(setLoginError);
+  const onFirebaseUISignInSuccess = getFirebaseUISignInSuccessCallback(setUser);
+  const loginUI = (<FirebaseLoginUI 
+    isUILoaded={isFirebaseLoginUILoaded}
+    loginError={loginError}
+    user={user}
+    onLoaded={onFirebaseUILoaded}
+    onError={onFirebaseUISignInError}
+    onSuccess={onFirebaseUISignInSuccess}
+  />);
 
-  useEffect(() => {
-    FirebaseAuthService.onAuthStateChanged((user) => {
-      if (user) {
-        const _user: User = {
-          id: user.uid,
-        };
-        setUser(_user);
-      }
-    });
-  }, []);
+
+  const shouldShowLoginPage = !user;
 
   return (
     <>
-      {user?
-        <StarterApp />:
-        <FirebaseLoginUI />
+      {shouldShowLoginPage?
+        loginUI:
+        <StarterApp />
       }
     </>
   );

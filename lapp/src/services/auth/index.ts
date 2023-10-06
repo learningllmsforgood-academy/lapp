@@ -9,7 +9,7 @@ FirebaseAuthService.onAuthStateChanged((user) => {
         const userID = user.uid;
         console.log(`user (UID = ${userID}) logged in. user => `, user);
     } else {
-        console.log("user signed out");
+        console.log("no user signed in");
     }
 });
 

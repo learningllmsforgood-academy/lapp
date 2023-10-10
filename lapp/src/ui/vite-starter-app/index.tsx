@@ -36,6 +36,9 @@ const getFirebaseUISignInSuccessCallback = (setUser: (user: TypeUser) => void) =
       // most likely a bug in firebaseui
       console.error("unexpected error while logging in. sign in sucess. no user.")
   }
+
+  console.log("==> will redirect to ${signInSuccessUrl} url");
+  return true;
   
   // return true;
   // true will redirect the page. 

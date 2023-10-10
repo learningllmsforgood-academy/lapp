@@ -88,6 +88,7 @@ const FirebaseLoginUI: React.FC<Props> = ({ isUILoaded, loginError, user,
                     // },
 
                     signInSuccessWithAuthResult: onSuccess,
+
                 },
                 signInOptions: [
                     {
@@ -104,6 +105,7 @@ const FirebaseLoginUI: React.FC<Props> = ({ isUILoaded, loginError, user,
                 privacyPolicyUrl: () => {
                     alert("TODO")
                 },
+                signInSuccessUrl: "/start",
             }
             );
         } 

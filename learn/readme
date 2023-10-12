@@ -69,3 +69,12 @@ Aside - unpkg | umd
        - https://github.com/umdjs/umd/
 
 
+
+React State
+===========
+
+- apart from `useState` React provides a bunch of APIs to manage state. examples:
+    - `useReducer`
+    - `useContext`
+
+Reference: https://react.dev/learn/managing-state

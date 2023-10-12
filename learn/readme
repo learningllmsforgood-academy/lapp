@@ -1,0 +1,59 @@
+- starting the course: https://nextjs.org/learn/foundations/about-nextjs
+
+why njs?
+========
+
+- has lego pieces to create fast web applications
+
+things to consider / building blocks in a web app:
+
+1. UI: how users consume info & interact with the app.
+
+2. Routing: navigation between different parts of the app.
+
+3. Data Fetching: where does the src data live and how to get it to the app?
+
+4. Rendering: generate content (html + css) - static / dynamic
+
+5. Integrations: Interface with 3rd party services / APIs. e.g. auth, CMS, payments etc.
+
+6. Infra: where does the app live and how it is deployed - serverless, CDN, edge, etc.
+
+7. Performance: make the app fast for end-user.
+
+8. Scalability: when team / users / data grow, how does the app adapt?
+
+9. Devx (Developer Experience): how is easy it is for devs to build and maintain the app.
+
+
+For each of these, need to choose:
+
+- build in-house
+- use existing libraries / frameworks
+
+--
+
+React.js
+========
+
+JS library for building user interfaces.
+    -----               ---------------
+
+UI? the element users see and interact with. Mostly on-screen.
+
+both +ve & -ve: very unopinionated.
+can lead to a lot of time being spend on configuring tools and reinventing solutions to common app requirements.
+
+Next.js
+=======
+
+- Provides structure around React.
+- handles tooling and configuration.
+- can also adopt next.js incrementally
+
+
+DOM
+====
+
+- Ref / tutorial on dom manipulation using vanilla JS - https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents
+

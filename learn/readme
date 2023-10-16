@@ -78,3 +78,134 @@ React State
     - `useContext`
 
 Reference: https://react.dev/learn/managing-state
+
+
+How Next.js Works
+=================
+
+- basics of how next.js works
+- react is unopionated about how to build and structure apps.
+    - next.js provides this structure.
+        - + optimizations to make dev and prod faster
+    - key concepts:
+        - env where my code runs? :: dev / prod
+            - dev
+                - optimze for dev experience. comes with
+                    - TypeScript
+                    - ESLint
+                    - Fast Refresh
+                    - ...
+            - prod
+                - optimize for end user experience
+                    - transform code to make it more performant
+                        - { similar to babel / vite / webpack work }
+                            - compile
+                            - bundle
+                            - minify
+                            - split
+
+            - how?
+                - next.js compiler
+                    - written in Rust
+                        - + SWC => what is it?
+                            - platform that can be used for:
+                                - compilation, minification, bundling, etc.
+
+            - components
+
+                - compilation
+                    - transpile Typescript + JSX to JS that can be run on browsers
+                        - happens both during dev and prod build
+                - minification
+                    - remove formatting, indenting, etc.
+                    - reduce file size in prod
+                - bundling
+                    - resolve import / export graph
+                    - { create a single bundle.js / app.js containing all the code for the app }
+                - code spliting
+                    - { 
+                        input:  bundle.js
+                        output: common.js, page1.js / chunk1.js, page2.js / chunk2.js, etc.
+                    }
+                    - each file in `pages/` will be split into its own bundle.
+                        - code shared between pages is also split into its own
+                            bundle to avoid downloading duplicate code
+                        - after initial load njs pre loads bundles that are likely to be used
+                        - can also control it manually:
+                            - dynamic imports.
+            
+        - when my code runs? :: build time / runtime
+
+            - build time (build step)
+                - njs takes code written by devs and transforms it into different files:
+                    - static HTML + CSS files
+                    - js code file(s) that run on the server {to render the page server side}
+                    - js code file(s) that run on the client (browser) {to make the app interactive}
+                    
+
+            - runtime (request time)
+                - after app has been built and deployed
+                    - code that runs on user request
+                        - { mostly refers to server side code } 
+                        - { similart to serverless functions }
+
+
+        - where rendering happens? :: client / server
+            - client
+                - { user's device (brower). send's request to server for app code }
+                - { also sends requests to server for data }
+            - server
+                - { computer that runs in a data center }
+                - { stores application code }
+                - { request from client => < computation on server > => response to client }
+
+            - what is rendering?
+                - { dev react code => < rendering process > => UI HTML }
+
+            - where does rendering take place?
+                - both client and server
+
+            - when does rendering take place?
+                - both of:
+                    1. ahead of time (during the build phase)
+                    2. on demand (on every request) (at runtime)
+
+            - types of rendering on next.js
+                - server-side rendering (SSR)
+                - static site generation (SSG)
+                - client-side rendering (CSR)
+
+                -  { SSR + SSG => together called pre-rendering }
+                    - why? fetching of external data (server side props)
+                        and transformation of React components into HTML
+                            happens before request is sent by client
+                    - { can be thought of like a caching layer }
+                
+                - client side rendering
+                    - { in classic react: server sends empty HTML "shell" 
+                        + JS code (instructions on how to render HTML) }
+                        - { rendering happens on user device }
+        
+                        - next.js also allows for client side rendering:
+                            - fetch data using -
+                                - `useEffect`
+                                - `useSWR`
+                
+                - by default: next.js pre-renders every page by default
+                    - HTML generated in advance on server
+                        - { for blog like content: better for SEO }
+                        - { faster initial page renders }
+                        - { low time to initial user interactivity }
+                
+                - pre-render
+                    - SSR
+                        - HTML generation on server for each request
+                        - 
+
+
+
+                     
+
+
+
+

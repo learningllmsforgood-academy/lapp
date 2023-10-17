@@ -83,6 +83,8 @@ Reference: https://react.dev/learn/managing-state
 How Next.js Works
 =================
 
+[https://nextjs.org/learn/foundations/how-nextjs-works]
+
 - basics of how next.js works
 - react is unopionated about how to build and structure apps.
     - next.js provides this structure.
@@ -188,8 +190,8 @@ How Next.js Works
         
                         - next.js also allows for client side rendering:
                             - fetch data using -
-                                - `useEffect`
-                                - `useSWR`
+                                - >> <b>`useEffect`</b>
+                                - >> <b>`useSWR`</b>
                 
                 - by default: next.js pre-renders every page by default
                     - HTML generated in advance on server
@@ -198,9 +200,38 @@ How Next.js Works
                         - { low time to initial user interactivity }
                 
                 - pre-render
-                    - SSR
+                    - SSR: Server Side Rendering
                         - HTML generation on server for each request
-                        - 
+                            - generated HTML + JSON data { required for hydration }
+                                + JS { to make page interactive } sent to client.
+                            - hydration: react uses generated json data + JS code
+                                to make the interactive, continuing from the same
+                                state as the server side generated HTML
+                        
+                        - >> can opt into SSR by using <b>`getServerSideProps`</b>
+
+                        - NOTE: next 12 + react 18 also include alpha version of <i>React server components</i>
+                            - it does not have any client-side js to render
+                        
+                    - SSG: Static Site Generation
+                        - HTML generated, but on each on each request
+                            - done ahead of time, during the build phase
+                            - generated HTML is stored in a CDN
+                                - reused for each request
+                            - { sounds much more efficient }
+                        
+                        - >> can opt to SSG by using <b>`getStaticProps`</b>
+
+                        - can also use <b>Incremental Static Regeneration</b>
+                            - can update build static HTML
+                            - don't have to do pull rebuild of entire site
+                            - kind of like applying deltas
+
+                    - << the next.js advantage >>
+                        - can choose the best rendering method on a page-by-page basis
+                            - >> read more in the <i>data fetching docs</i>
+                    
+                    
 
 
 
@@ -209,3 +240,27 @@ How Next.js Works
 
 
 
+                - << network >>
+
+                    - components
+                        - origin servers
+                        - CDNs
+                        - Edge
+
+                    - CDN
+                        - store static content
+                        - geographically distributed
+                        - uses benefits of caching
+                        
+                    - "The Edge"
+                        - servers / computers part of the network that are closest to the user
+                        - Technically CDNs are also part of "The Edge"
+                        - In general Edge servers can also run small snippets of code
+                        - Essentially reduces latency
+                        - kind of a perf optimization
+
+
+First Next.js App
+================
+
+[https://nextjs.org/learn/basics/create-nextjs-app]

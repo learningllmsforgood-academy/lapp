@@ -272,3 +272,25 @@ uses [this](https://github.com/vercel/next-learn/tree/main/basics/learn-starter)
 ```
 npx create-next-app@latest nextjs-blog --use-npm --example "https://github.com/vercel/next-learn/tree/main/basics/learn-starter"
 ```
+
+Navigating Between Pages
+========================
+
+- multi page app
+    - "file routing system"
+- <Link > component
+- code spliting and prefetching
+
+Page? in Next.js
+===============
+
+A "page" is just a react component exported from the pages/ directory.
+
+page <=> route association done based on filename
+
+- use `next/Link` component instead of <a>
+    - why?
+        - allows to do "client-side navigation"
+    - how?
+        - similar to the <a> tag.
+            - `<Link href="link-target-here">Link text here</Link>`

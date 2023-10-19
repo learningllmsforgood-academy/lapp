@@ -264,3 +264,11 @@ First Next.js App
 ================
 
 [https://nextjs.org/learn/basics/create-nextjs-app]
+
+> will create a simple demo blog using next
+
+uses [this](https://github.com/vercel/next-learn/tree/main/basics/learn-starter) as the starter code.
+
+```
+npx create-next-app@latest nextjs-blog --use-npm --example "https://github.com/vercel/next-learn/tree/main/basics/learn-starter"
+```

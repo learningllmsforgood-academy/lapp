@@ -291,6 +291,79 @@ page <=> route association done based on filename
 - use `next/Link` component instead of <a>
     - why?
         - allows to do "client-side navigation"
+            - client-side navigation actually refers to a bunch of [optimizations](https://nextjs.org/learn/basics/navigate-between-pages/client-side)
+                done by next.
     - how?
         - similar to the <a> tag.
             - `<Link href="link-target-here">Link text here</Link>`
+    - for external pages use <a> instead of <Link>
+
+Styling
+=======
+
+Next has builtin support for CSS and Sass.
+
+[Styling docs](https://nextjs.org/docs/pages/building-your-application/styling)
+
+> adding static files / images
+    - put em in top level `public` directory
+        - files inside this dir can be referenced from app root
+
+
+> customize the <head> for each page
+> create reusable components styled using CSS Modules
+> adding global css
+> styling tips
+
+ways of styling:
+- sass: `.css` and `.scss` files
+- postcss: tailwind
+- css in js: styled-jsx, styled-components, emotion
+- etc.
+
+> utility 1st CSS: https://tailwindcss.com/docs/utility-first
+
+> more styling tips: https://nextjs.org/learn/basics/assets-metadata-css/styling-tips
+
+notes:
+- out of the box next.js compiles css using PostCSS
+    - can customize config by creating a top-level `postcss.config.js` file
+        > useful if using tailwind
+        - [example](https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss) for getting started with tailwind
+
+Images
+======
+
+- Use `next/image` instead of <img>.
+    - has a bunch of [optimizations](https://nextjs.org/docs/pages/building-your-application/optimizing/images) built in.
+
+Head
+====
+
+[https://nextjs.org/docs/pages/api-reference/components/head]
+
+- note: Head can also contain [Open Graph](https://ogp.me/) (`og:?`) tags
+    - these are used to render preview of the page by apps like twitter, slack, etc.
+    - refs:
+        - https://www.freecodecamp.org/news/what-is-open-graph-and-how-can-i-use-it-for-my-website/
+        - https://seosetups.com/blog/open-graph/
+
+
+3rd Party JS
+============
+
+[https://nextjs.org/learn/basics/assets-metadata-css/third-party-javascript]
+
+> next.js [recommends against](https://nextjs.org/docs/messages/no-script-tags-in-head-component) directly include in the head as script tag.
+    - should use `next/script` instead.
+        - can be used anywhere in the page
+
+_app.js
+=======
+
+[https://nextjs.org/docs/pages/building-your-application/routing/custom-app]
+
+- top level component that wraps all pages in the app.
+- can be used to:
+    - keep state while navigating between pages
+    - add global styles

@@ -367,3 +367,139 @@ _app.js
 - can be used to:
     - keep state while navigating between pages
     - add global styles
+
+
+pre-rendering & data fetching
+=============================
+
+[https://nextjs.org/docs/pages/building-your-application/data-fetching]
+
+topics:
+- next.js pre-rendering feature
+    - Static Generation
+        - w data
+        - wo data
+    - Server-side Rendering
+- getStaticProps
+
++ pre-rendering
+    - next.js generates HTML for each page
+    - so should work page should be viewable even with js disabled
+    - by default next will pre-render every page
+        - html generation happens in advance
+    - better for perf and seo
+    - { hydration }
+
+    1. Static Site Generation (ssg)
+    2. Server Side Rendering (ssr)
+
+    - in dev next does ssr
+        - in prod it defaults to ssg
+    - per page basis
+        - for each page we can decide
+            - ssg vs ssr
+            - hybrid app
+                - most pages are ssg.
+                - some are ssr
+    
+    - ssg is generally better for perf
+        - and benefits from caching at CDN
+        - so try to do this whenever possible
+        - not good when user / request context is required for rendering
+        - ssg with data
+            - load data from an external system
+            - `getStaticProps`
+                - query external system
+                - fetch data
+                - return props
+                - { in dev getStaticProps runs on every request }
+                - { in prod runs at build time }
+                - { only run server side }
+                - { js code is also not shipped to the client }
+
+    - ssr
+        - required when need to fetch data at request time
+            - instead of build time
+        - `getServerSideProps`
+            - TTFB (time to first byte) will be slower than `getStaticProps`
+                - code will run on the server at each request
+            - same interface as `getStaticProps`
+                - just when the code runs is different
+    
+    - client side rendering
+        - swr [https://swr.vercel.app/]
+
+
+Dynamic Routes
+==============
+
+[https://nextjs.org/learn/basics/dynamic-routes]
+
+- dynamic urls: `getStaticPaths`
+    - `getStaticProps` for each dynamic page
+        - documentation: [https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-paths]
+        - fallback param docs: [https://nextjs.org/docs/pages/api-reference/functions/get-static-paths#fallback-false]
+    
+    - `[id].js` vs `[...id].js`
+        
+        - `[id].js` => returned `id` is  string
+        
+            - for example:
+                ```
+                `pages/posts/[id].js:getStaticProps` returns {
+                    paths: [
+                        {
+                            params: {
+                                id: "a"
+                            }
+                        },
+                        {
+                            params: {
+                                id: "b"
+                            }
+                        },
+                        {
+                            params: {
+                                id: "c"
+                            }
+                        }
+                    ]
+                }
+                ```
+                actual paths become something like:
+                - `/posts/a`
+                - `/posts/a`
+                - `/posts/c`
+
+        - `[...id].js` => returned `id` is an array
+            
+            - for example:
+                ```
+                `pages/posts/[id].js:getStaticProps` returns {
+                    paths: [
+                        {
+                            params: {
+                                id: ["a", "b", "c"]
+                            }
+                        },
+                        {
+                            params: {
+                                id: ["b", "d"]
+                            }
+                        },
+                    ]
+                }
+                ```
+                actual paths become something like:
+                - `/posts/a/b/c`
+                - `/posts/b/d`
+
+- link pages using dynamic routes
+
+- advanced
+    - [`useRouter`](https://nextjs.org/docs/pages/api-reference/functions/use-router): access the next.js router inside components
+
+    - [Error Pages](https://nextjs.org/docs/pages/building-your-application/routing/custom-error)
+        - `pages/404.js` => for custom 404 page
+
+    - [More example](https://nextjs.org/learn-pages-router/basics/dynamic-routes/dynamic-routes-details)

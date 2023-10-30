@@ -503,3 +503,56 @@ Dynamic Routes
         - `pages/404.js` => for custom 404 page
 
     - [More example](https://nextjs.org/learn-pages-router/basics/dynamic-routes/dynamic-routes-details)
+
+API Routes
+==========
+
+[https://nextjs.org/learn-pages-router/basics/api-routes]
+
+- Create API endpoints as node.js serverless functions
+    - create a function in `pages/api` directory
+
+        ```js
+        // req = incoming client HTTP request
+        // res = outgoing server HTTP response
+        export default function handler(req, res) {
+
+        }
+        ```
+
+    - [reference docs](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)
+
+    - notes:
+        - api routes code is not included in the client bundle
+        - fetching api routes from `getStaticProps` or `getStaticPaths` is not recommended
+            - instead can directly server-side code in these function
+            - these are anyway not included in the client bundle
+        - good use cases:
+            - handling form input
+                - client sends post request to api route
+                    - api route code saves it to db
+            - [preview mode](https://nextjs.org/docs/pages/building-your-application/configuring/preview-mode)
+
+Deploying the Next.js App
+=========================
+
+[https://nextjs.org/learn-pages-router/basics/deploying-nextjs-app]
+
+- vercel
+- other hosting options:
+    1. `npm run build`
+        - builds the app to `.next` dir
+    2. `npm run start`
+        - start node.js server. serves both:
+            - statically generated pages
+            - server-side rendered pages 
+
+Wrapup
+======
+
+[https://nextjs.org/learn-pages-router/basics/deploying-nextjs-app/finally]
+
+- [Using next.js with Typescript](https://nextjs.org/docs/pages/building-your-application/configuring/typescript)
+- [Data Fetching](https://nextjs.org/docs/pages/building-your-application/data-fetching)
+- [Env Variables](https://nextjs.org/docs/pages/building-your-application/configuring/environment-variables)
+- [SEO](https://nextjs.org/learn-pages-router/seo/introduction-to-seo)

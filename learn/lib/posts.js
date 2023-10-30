@@ -21,7 +21,7 @@ function _getPostData(id, getContent) {
   const fileContents = fs.readFileSync(fullPath, 'utf8');
 
   const matterResult = matter(fileContents);
-  const { title, date } = matterResult.data;
+  const { title, date, ...postMeta } = matterResult.data;
 
   let contentHtml;
 
@@ -30,18 +30,18 @@ function _getPostData(id, getContent) {
     contentHtml = getPostContentHtml(postMd);
   }
 
-  return { id, title, date, contentHtml };
+  return { id, title, date, postMeta, contentHtml };
 }
 
 export async function getPostDataWithContent(id) {
-  const { title, date, contentHtml: contentHtmlPromise } = _getPostData(id, true);
+  const { title, date, postMeta, contentHtml: contentHtmlPromise } = _getPostData(id, true);
   const contentHtml = await contentHtmlPromise;
-  return { id, title, date, contentHtml };
+  return { id, title, date, postMeta, contentHtml };
 }
 
 export function getPostDataWithoutContent(id) {
-  const { title, date } = _getPostData(id, false);
-  return { id, title, date }; 
+  const { title, date, postMeta } = _getPostData(id, false);
+  return { id, title, date, postMeta }; 
 }
 
 

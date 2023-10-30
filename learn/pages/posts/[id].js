@@ -4,9 +4,12 @@ import Date from '../../components/date';
 import { getAllPostIds, getPostDataWithContent } from '../../lib/posts';
 
 import utilStyles from '../../styles/utils.module.css';
+import { clsx } from 'clsx';
 
 export default function Post({ postData }) {
-    const { title, date, contentHtml } = postData;
+    const { title, date, postMeta, contentHtml } = postData;
+    const useGithubCSS = !!postMeta['use-github-css'];
+
     return (
         <Layout>
             <Head>
@@ -17,8 +20,11 @@ export default function Post({ postData }) {
                 <div className={utilStyles.lightText}>
                     <Date dateString={date} />
                 </div>
-                <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
-            </article>            
+                <div
+                    className={clsx(useGithubCSS && [ utilStyles.padding20px, 'markdown-body' ])}
+                    dangerouslySetInnerHTML={{ __html: contentHtml }} 
+                />
+            </article>
         </Layout>
     );
 }

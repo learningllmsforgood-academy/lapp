@@ -1,15 +1,14 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getOgImageUrl } from "../lib/utils";
+
 import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
 
 const name = 'Learning App';
 const siteTitle = 'Next.js Sample Website';
-const ogImageUrl = `https://og-image.vercel.app/${encodeURI(
-    siteTitle,
-)}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`;
-console.log("==> [layout.js] og:image = ", { ogImageUrl });
+const ogImageUrl = getOgImageUrl(siteTitle);
 
 function ProfileImage({ isHome }) {
     const h = isHome ? 144 : 108;

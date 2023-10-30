@@ -7,7 +7,7 @@ import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
 
 const name = 'Learning App';
-const siteTitle = 'Next.js Sample Website';
+const siteTitle = 'A simple blog';
 const ogImageUrl = getOgImageUrl(siteTitle);
 
 function ProfileImage({ isHome }) {

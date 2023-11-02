@@ -1,3 +1,6 @@
+# Github Action workflow config
+# https://docs.github.com/en/actions
+
 name: Deploy Next.js tutorial in /learn to github pages
 
 on:
@@ -31,22 +34,15 @@ jobs:
           sparse-checkout: |
             learn
       
-      - name: List files in workspace
-        run: ls -l
-
-      - name: Make /learn the workspace root directory
+      - name: Remove all files apart from /learn directory
         run: |
           mv ./root-repo/learn ./learn
           rm -rf ./root-repo
-          mv ./learn $GITHUB_WORKSPACE
-
-      - name: List files in workspace
-        run: ls -l
 
       - name: Setup Node
         uses: actions/setup-node@v3 # https://github.com/actions/setup-node
         with:
-          node-version-file: .nvmrc
+          node-version-file: ./learn/.nvmrc
       
       - name: Setup Pages
         id: setup-pages
@@ -56,7 +52,7 @@ jobs:
       - name: Set images base path
         id: set-images-base-path
         run: |
-          echo 'basePath="${{steps.setup-pages.outputs.base_path}}";' >> ./image-loader.js
+          echo 'basePath="${{steps.setup-pages.outputs.base_path}}";' >> ./learn/image-loader.js
 
       # next.js build caching. doc:
       # https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching#github-actions
@@ -65,23 +61,29 @@ jobs:
         with:
           path: |
             ~/.npm
-            ${{ github.workspace }}/.next/cache
+            ${{ github.workspace }}/learn/.next/cache
           # Generate a new cache whenever packages or source files change.
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-      
+          # Notes:
+          # [hashFiles doc](https://docs.github.com/en/actions/learn-github-actions/expressions#hashfiles)
+          # **/package-lock.json will also match d1/d2/d3/package-lock.json
+          # refer: https://en.wikipedia.org/wiki/Glob_(programming)
+
       - name: Install dependencies
+        working-directory: ./learn
         run: npm ci
       
       - name: Build with Next.js
+        working-directory: ./learn
         run: BASE_PATH=${{steps.setup-pages.outputs.base_path}} npm run build
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: ./out
+          path: ./learn/out
 
   # Deployment job
   deploy:

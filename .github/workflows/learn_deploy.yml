@@ -27,16 +27,21 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4 # https://github.com/actions/checkout
         with:
+          path: root-repo
           sparse-checkout: |
             learn
       
-      - name: Make /learn the current directory
+      - name: List files in workspace
+        run: ls -l
+
+      - name: Make /learn the workspace root directory
         run: |
-          ls -a
-          mv ./learn /tmp/
-          rm -f ./*
-          mv /tmp/learn/* ./
-          ls -a
+          mv ./root-repo/learn ./learn
+          rm -rf ./root-repo
+          mv ./learn $GITHUB_WORKSPACE
+
+      - name: List files in workspace
+        run: ls -l
 
       - name: Setup Node
         uses: actions/setup-node@v3 # https://github.com/actions/setup-node
